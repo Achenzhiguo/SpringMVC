@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czg.mapper.VipUserMapper">
+
+    <select id="findUser" resultType="VipUser">
+    select * from vipuser where uname = #{param1} and pwd = #{param2}
+    </select>
+</mapper>
