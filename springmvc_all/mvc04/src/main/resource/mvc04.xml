@@ -34,7 +34,7 @@
     </bean>-->
     <!--静态资源放行-->
     <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
- <!--   <mvc:resources mapping="/upload/**" location="/upload/"></mvc:resources>-->
+    <mvc:resources mapping="/upload/**" location="/upload/"></mvc:resources>
 
     <!--文件上传解析组件
  id必须为multipartResolver

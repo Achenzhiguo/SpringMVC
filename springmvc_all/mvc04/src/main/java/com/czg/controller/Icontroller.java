@@ -1,12 +1,18 @@
 package com.czg.controller;
 
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Auther: erdongchen
@@ -17,19 +23,52 @@ import java.io.IOException;
 @Controller
 public class Icontroller {
 
+
     @ResponseBody
     @RequestMapping("fileUpload.do")
-    public String addPlayer(MultipartFile headPhoto) throws IOException {
-        //已经拿到图片相关的信息
-        //文件保存的路径
-        File dir = new File("D:/imgs");
-        //获取文件名
+    public Map<String, String> addPlayer(MultipartFile headPhoto, HttpServletRequest req) throws IOException {
+        Map<String,String> map = new HashMap<>();
+        //控制上传的文件大小
+        if (headPhoto.getSize()>(1024*300)){
+            map.put("message","照片不能大于300kb");
+            return map;
+        }
+
+
+        // 指定文件存储目录为我们项目部署环境下的upload目录
+        String realPath = req.getServletContext().getRealPath("/upload");
+        File dir = new File(realPath);
+        // 如果不存在则创建目录
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+
+        // 获取文件名
         String originalFilename = headPhoto.getOriginalFilename();
-        //文件储存位置
-        File file = new File(dir,originalFilename);
+        // 避免文件名冲突,使用UUID替换文件名
+        String uuid = UUID.randomUUID().toString();
+        // 获取拓展名
+        String extendsName = originalFilename.substring(originalFilename.lastIndexOf("."));//以最后偶一个点截取,找到文件类型
+
+        //控制文件类型
+        if(!extendsName.equals(".jpg")){
+            map.put("message","图片格式只能为JPG格式");
+            return map;
+        }
+
+
+        // 新的文件名
+        String newFileName=uuid.concat(extendsName);//将文件名与文件格式拼接
+        // 文件存储位置
+        File file =new File(dir,newFileName);
+        //上传成功后把文件名和文件类型响应给浏览器
+        map.put("message","上传成功");
+        map.put("newFileName",newFileName);
+        map.put("filetype",headPhoto.getContentType());
         //文件保存
         headPhoto.transferTo(file);
-        return "OK";
+        return map;
     }
 
 
