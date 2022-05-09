@@ -1,5 +1,7 @@
 package com.czg.controller;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,27 +25,18 @@ import java.util.UUID;
 @Controller
 public class Icontroller {
 
+    private static final String FILESERVE = "http://192.168.1.101:8090/upload/";
 
     @ResponseBody
     @RequestMapping("fileUpload.do")
-    public Map<String, String> addPlayer(MultipartFile headPhoto, HttpServletRequest req) throws IOException {
+    public Map<String, String> fileUpload(MultipartFile headPhoto, HttpServletRequest req) throws IOException {
         Map<String,String> map = new HashMap<>();
-        //控制上传的文件大小
-        if (headPhoto.getSize()>(1024*300)){
+            //控制上传的文件大小
+      /*  if (headPhoto.getSize()>(1024*300)){
             map.put("message","照片不能大于300kb");
             return map;
         }
-
-
-        // 指定文件存储目录为我们项目部署环境下的upload目录
-        String realPath = req.getServletContext().getRealPath("/upload");
-        File dir = new File(realPath);
-        // 如果不存在则创建目录
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-
-
+*/
         // 获取文件名
         String originalFilename = headPhoto.getOriginalFilename();
         // 避免文件名冲突,使用UUID替换文件名
@@ -51,23 +44,27 @@ public class Icontroller {
         // 获取拓展名
         String extendsName = originalFilename.substring(originalFilename.lastIndexOf("."));//以最后偶一个点截取,找到文件类型
 
-        //控制文件类型
+            //控制文件类型
         if(!extendsName.equals(".jpg")){
             map.put("message","图片格式只能为JPG格式");
             return map;
         }
 
-
         // 新的文件名
         String newFileName=uuid.concat(extendsName);//将文件名与文件格式拼接
-        // 文件存储位置
-        File file =new File(dir,newFileName);
+
+        // 创建 sun公司提供的jersey包中的client对象
+        Client client = Client.create();
+        WebResource resource = client.resource(FILESERVE + newFileName);
+        //把文件保存到另一台服务器上
+        resource.put(String.class,headPhoto.getBytes());
+
         //上传成功后把文件名和文件类型响应给浏览器
         map.put("message","上传成功");
         map.put("newFileName",newFileName);
         map.put("filetype",headPhoto.getContentType());
-        //文件保存
-        headPhoto.transferTo(file);
+
+
         return map;
     }
 

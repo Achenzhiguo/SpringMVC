@@ -52,7 +52,7 @@
                         // 接收后台响应的信息
                         alert(result.message);
                         // 图片回显
-                        $("#headImg").attr("src", "upload/" + result.newFileName);
+                        $("#headImg").attr("src", "http://192.168.1.101:8090/upload/" + result.newFileName);
                     },
                     xhr: function() {
                         var xhr = new XMLHttpRequest();
