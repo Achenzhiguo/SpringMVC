@@ -12,11 +12,10 @@
 </head>
 <body>
 helloworld
-   <%-- <form action ="login" method="post">
+    <form action ="login" method="post">
         用户名:<input type="text" name="name"><br/>
         密  码:<input type="password" name="password"><br/>
         <input type="submit" name="提交">
---%>
     </form>
 </body>
 </html>

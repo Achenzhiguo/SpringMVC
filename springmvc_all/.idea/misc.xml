@@ -3,6 +3,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/mvc02" />
     <file type="web" url="file://$PROJECT_DIR$/mvc03" />
+    <file type="web" url="file://$PROJECT_DIR$/mvc04" />
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
@@ -12,6 +13,7 @@
       <list>
         <option value="$PROJECT_DIR$/mvc02/pom.xml" />
         <option value="$PROJECT_DIR$/mvc03/pom.xml" />
+        <option value="$PROJECT_DIR$/mvc04/pom.xml" />
       </list>
     </option>
   </component>
