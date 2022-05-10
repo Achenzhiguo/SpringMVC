@@ -53,6 +53,9 @@
                         alert(result.message);
                         // 图片回显
                         $("#headImg").attr("src", "http://192.168.1.101:8090/upload/" + result.newFileName);
+                        //将文件类型和文件名称放入form表单
+                        $("#photoinput").val(result.newFileName)
+                        $("#filetypeinput").val(result.filetype)
                     },
                     xhr: function() {
                         var xhr = new XMLHttpRequest();
@@ -74,7 +77,7 @@
 </head>
 <body>
 <center>
-    <form action="addPlayer" method="get">
+    <form action="addIuser" method="get">
         <p>头像
             <br/>
             <input id="photo" type="file">
@@ -87,9 +90,12 @@
         </div>
         <a id="uploadFile" href="javascript:void(0)">立即上传</a>
         </p>
-        <p>账号<input type="text" name="name"></p>
-        <p>密码<input type="text" name="password"></p>
+        <p>账号<input type="text" name="iname"></p>
+        <p>密码<input type="text" name="ipwd"></p>
         <p>昵称<input type="text" name="nickname"></p>
+        <%--使用隐藏的输入框储存文件名称和文件类型--%>
+        <input id="photoinput" type="hidden" name="photo">
+        <input id="filetypeinput" type="hidden" name="filetype">
 
         <p><input type="submit" value="注册"></p>
     </form>

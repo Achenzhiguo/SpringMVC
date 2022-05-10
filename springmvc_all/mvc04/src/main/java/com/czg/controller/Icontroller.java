@@ -44,12 +44,12 @@ public class Icontroller {
         // 获取拓展名
         String extendsName = originalFilename.substring(originalFilename.lastIndexOf("."));//以最后偶一个点截取,找到文件类型
 
-            //控制文件类型
+       /*     //控制文件类型
         if(!extendsName.equals(".jpg")){
             map.put("message","图片格式只能为JPG格式");
             return map;
         }
-
+*/
         // 新的文件名
         String newFileName=uuid.concat(extendsName);//将文件名与文件格式拼接
 
@@ -63,6 +63,7 @@ public class Icontroller {
         map.put("message","上传成功");
         map.put("newFileName",newFileName);
         map.put("filetype",headPhoto.getContentType());
+        /*System.out.println(headPhoto.getContentType());*/
 
 
         return map;

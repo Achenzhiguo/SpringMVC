@@ -1,5 +1,9 @@
 package com.czg.service.impl;
 
+import com.czg.mapper.Imapper;
+import com.czg.pojo.Iuser;
+import com.czg.service.Iservice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.spi.WebServiceFeatureAnnotation;
@@ -11,5 +15,11 @@ import javax.xml.ws.spi.WebServiceFeatureAnnotation;
  * @version: 1.0
  */
 @Service
-public class IserviceImpl {
+public class IserviceImpl implements Iservice {
+    @Autowired
+    private Imapper imapper;
+    @Override
+    public int addIuser(Iuser iuser) {
+        return imapper.addIuser(iuser);
+    }
 }
